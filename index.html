@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700&display=swap" rel="stylesheet">
+  
+  <title>Frontend Mentor | Article preview component</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background-color: hsl(210, 46%, 95%);
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .article-card {
+      background: white;
+      border-radius: 10px;
+      max-width: 45.625rem; /* 730px */
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .article-image {
+      width: 100%;
+      height: 12.5rem; /* 200px */
+      background-image: url('./images/drawers.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .article-content {
+      padding: 32px;
+    }
+
+    .article-title {
+      color: hsl(217, 19%, 35%);
+      font-size: 1.25rem; /* 20px */
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 12px;
+      letter-spacing: 0.25px;
+    }
+
+    .article-description {
+      color: hsl(214, 17%, 51%);
+      font-size: 0.8125rem; /* 13px */
+      line-height: 1.4;
+      margin-bottom: 20px;
+      font-weight: 500;
+      letter-spacing: 0.0156px;
+    }
+
+    .article-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .author-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .author-avatar {
+      width: 2.5rem; /* 40px */
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background-image: url('./images/avatar-michelle.jpg');
+      background-size: cover;
+    }
+
+    .author-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .author-name {
+      color: hsl(217, 19%, 35%);
+      font-size: 0.8125rem; /* 13px */
+      font-weight: 700;
+      letter-spacing: 0.0156px;
+    }
+
+    .publish-date {
+      color: hsl(212, 23%, 69%);
+      font-size: 0.8125rem; /* 13px */
+      font-weight: 500;
+      letter-spacing: 0.0156px;
+    }
+
+    .share-button {
+      background: hsl(210, 46%, 95%);
+      border: none;
+      border-radius: 50%;
+      width: 2rem; /* 32px */
+      aspect-ratio: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .share-button:hover {
+      background: hsl(217, 19%, 35%);
+    }
+
+    .share-button:hover svg path {
+      fill: white;
+    }
+
+    .share-button.active {
+      background: hsl(217, 19%, 35%);
+    }
+
+    .share-button.active svg path {
+      fill: white;
+    }
+
+    .share-tooltip {
+      position: absolute;
+      bottom: 100%;
+      right: -10px;
+      background: hsl(217, 19%, 35%);
+      color: hsl(212, 23%, 69%);
+      padding: 18px 36px;
+      border-radius: 10px;
+      display: none;
+      align-items: center;
+      gap: 16px; /* 16px */
+      font-size: 0.8125rem; /* 13px */
+      font-weight: 500;
+      letter-spacing: 3.25px;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .share-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 10px solid transparent;
+      border-top-color: hsl(217, 19%, 35%);
+    }
+
+    .share-tooltip.show {
+      display: flex;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 16px;
+    }
+
+    .social-icon {
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+      display: block;
+      line-height: 0;
+    }
+
+    .social-icon:hover {
+      opacity: 0.7;
+    }
+
+    /* Mobile overlay styles */
+    .mobile-share-overlay {
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      right: 0;
+      background: hsl(217, 19%, 35%);
+      padding: 20px 32px;
+      display: none;
+      align-items: center;
+      border-radius: 0 0 10px 10px;
+    }
+
+    .mobile-share-overlay.show {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .mobile-share-text {
+      color: hsl(212, 23%, 69%);
+      font-size: 0.8125rem; /* 13px */
+      font-weight: 500;
+      letter-spacing: 3.25px;
+      text-transform: uppercase;
+    }
+
+    .mobile-social-icons {
+      display: flex;
+      gap: 16px;
+    }
+
+    .attribution { 
+      font-size: 0.6875rem; /* 11px */
+      text-align: center; 
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .attribution a { color: hsl(228, 45%, 44%); }
+
+    /* Tablet styles */
+    @media (min-width: 48rem) and (max-width: 63.9375rem) { /* 768px - 1023px */
+      .article-card {
+        flex-direction: row;
+        max-width: 38rem; /* 608px */
+      }
+
+      .article-image {
+        width: 14.3125rem; /* 229px */
+        aspect-ratio: 1;
+        height: auto;
+        flex-shrink: 0;
+      }
+
+      .article-content {
+        flex: 1;
+        padding: 32px 40px;
+      }
+
+      .article-title {
+        font-size: 1.25rem; /* 20px */
+        margin-bottom: 16px;
+      }
+
+      .article-description {
+        font-size: 0.8125rem; /* 13px */
+        margin-bottom: 24px;
+      }
+
+      .share-tooltip {
+        right: -120px;
+      }
+
+      .mobile-share-overlay {
+        display: none !important;
+      }
+    }
+
+    /* Desktop styles */
+    @media (min-width: 64rem) { /* 1024px */
+      .article-card {
+        flex-direction: row;
+        max-width: 45.625rem; /* 730px */
+      }
+
+      .article-image {
+        width: 17.8125rem; /* 285px */
+        aspect-ratio: 1;
+        height: auto;
+        flex-shrink: 0;
+      }
+
+      .article-content {
+        flex: 1;
+        padding: 32px 40px;
+      }
+
+      .article-title {
+        font-size: 1.25rem; /* 20px */
+        margin-bottom: 16px;
+      }
+
+      .article-description {
+        font-size: 0.8125rem; /* 13px */
+        margin-bottom: 24px;
+      }
+
+      .share-tooltip {
+        right: -102px;
+      }
+
+      .mobile-share-overlay {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="article-card">
+    <div class="article-image"></div>
+    
+    <div class="article-content">
+      <h1 class="article-title">
+        Shift the overall look and feel by adding these wonderful 
+        touches to furniture in your home
+      </h1>
+      
+      <p class="article-description">
+        Ever been in a room and felt like something was missing? Perhaps 
+        it felt slightly bare and uninviting. I've got some simple tips 
+        to help you make any room feel complete.
+      </p>
+      
+      <div class="article-footer">
+        <div class="author-info">
+          <div class="author-avatar"></div>
+          <div class="author-details">
+            <div class="author-name">Michelle Appleton</div>
+            <div class="publish-date">28 Jun 2020</div>
+          </div>
+        </div>
+        
+        <button class="share-button" id="shareButton" aria-label="Share article">
+          <svg width="15" height="13" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 6.495L8.766.014V3.88H7.441C3.33 3.88 0 7.039 0 10.936v2.049l.589-.612C2.59 10.294 4.974 9.11 7.441 9.11H8.766v3.867L15 6.495z" fill="#6E8098"/>
+          </svg>
+        </button>
+        
+        <div class="share-tooltip" id="shareTooltip">
+          <span>Share</span>
+          <div class="social-icons">
+            <div class="social-icon">
+              <img src="./images/icon-facebook.svg" alt="Facebook">
+            </div>
+            <div class="social-icon">
+              <img src="./images/icon-twitter.svg" alt="Twitter">
+            </div>
+            <div class="social-icon">
+              <img src="./images/icon-pinterest.svg" alt="Pinterest">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mobile share overlay -->
+        <div class="mobile-share-overlay" id="mobileShareOverlay">
+          <span class="mobile-share-text">Share</span>
+          <div class="mobile-social-icons">
+            <div class="social-icon">
+              <img src="./images/icon-facebook.svg" alt="Facebook">
+            </div>
+            <div class="social-icon">
+              <img src="./images/icon-twitter.svg" alt="Twitter">
+            </div>
+            <div class="social-icon">
+              <img src="./images/icon-pinterest.svg" alt="Pinterest">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <script>
+    const shareButton = document.getElementById('shareButton');
+    const shareTooltip = document.getElementById('shareTooltip');
+    const mobileShareOverlay = document.getElementById('mobileShareOverlay');
+    
+    shareButton.addEventListener('click', function() {
+      // Check if we're on mobile or desktop
+      if (window.innerWidth < 768) {
+        // Mobile: show overlay
+        mobileShareOverlay.classList.toggle('show');
+        shareButton.classList.toggle('active');
+      } else {
+        // Desktop: show tooltip
+        shareTooltip.classList.toggle('show');
+        shareButton.classList.toggle('active');
+      }
+    });
+    
+    // Close tooltip/overlay when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!shareButton.contains(event.target) && 
+          !shareTooltip.contains(event.target) && 
+          !mobileShareOverlay.contains(event.target)) {
+        shareTooltip.classList.remove('show');
+        mobileShareOverlay.classList.remove('show');
+        shareButton.classList.remove('active');
+      }
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      if (window.innerWidth >= 768) {
+        mobileShareOverlay.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>
