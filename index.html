@@ -18,6 +18,18 @@
       box-sizing: border-box;
     }
 
+    img {
+      display: block;
+      line-height: 0;
+      max-width: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
     body {
       font-family: 'Manrope', sans-serif;
       background-color: hsl(210, 46%, 95%);
@@ -40,12 +52,12 @@
 
     .article-image {
       width: 100%;
-      display: block;
-      line-height: 0;
-      height: 12.5rem; /* 200px */
+      aspect-ratio: 1;
+      /* height: 12.5rem; 200px */
       background-image: url('./images/drawers.jpg');
       background-size: cover;
       background-position: center;
+      overflow: hidden;
     }
 
     .article-content {
@@ -116,7 +128,6 @@
       border-radius: 50%;
       width: 2rem; /* 32px */
       aspect-ratio: 1;
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -158,20 +169,28 @@
       text-transform: uppercase;
       margin-bottom: 15px;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      transform: scale(0.8);
+      transform-origin: bottom center;
+      transition: translate 0.2s ease-out, opacity 0.2s ease-out, transform 0.2s ease-out;
+      opacity: 0;
     }
+
 
     .share-tooltip::after {
       content: '';
       position: absolute;
       top: 100%;
       left: 50%;
-      transform: translateX(-50%);
+      translate: -50% 0;
       border: 10px solid transparent;
       border-top-color: hsl(217, 19%, 35%);
     }
 
     .share-tooltip.show {
       display: flex;
+      transform: scale(1);
+      opacity: 1;
+      right: -102px;
     }
 
     .social-icons {
@@ -182,8 +201,6 @@
     .social-icon {
       cursor: pointer;
       transition: opacity 0.3s ease;
-      display: block;
-      line-height: 0;
     }
 
     .social-icon:hover {
@@ -201,12 +218,15 @@
       display: none;
       align-items: center;
       border-radius: 0 0 10px 10px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease-out;
     }
 
     .mobile-share-overlay.show {
       display: flex;
       align-items: center;
       gap: 24px;
+      transform: translateY(0);
     }
 
     .mobile-share-text {
@@ -222,15 +242,7 @@
       gap: 16px;
     }
 
-    .attribution { 
-      font-size: 0.6875rem; /* 11px */
-      text-align: center; 
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .attribution a { color: hsl(228, 45%, 44%); }
+   
 
     /* Tablet styles */
     @media (min-width: 48rem) and (max-width: 63.9375rem) { /* 768px - 1023px */
@@ -241,9 +253,7 @@
 
       .article-image {
         width: 14.3125rem; /* 229px */
-        aspect-ratio: 1;
-        height: auto;
-        flex-shrink: 0;
+        aspect-ratio: auto 346 / 229;
       }
 
       .article-content {
@@ -259,10 +269,6 @@
       .article-description {
         font-size: 0.8125rem; /* 13px */
         margin-bottom: 24px;
-      }
-
-      .share-tooltip {
-        right: -120px;
       }
 
       .mobile-share-overlay {
@@ -299,9 +305,7 @@
         margin-bottom: 24px;
       }
 
-      .share-tooltip {
-        right: -102px;
-      }
+      
 
       .mobile-share-overlay {
         display: none !important;
@@ -316,14 +320,14 @@
     
     <div class="article-content">
       <h1 class="article-title">
-        Shift the overall look and feel by adding these wonderful 
-        touches to furniture in your home
+  Shift the overall look and feel by adding these wonderful 
+  touches to furniture in your home
       </h1>
-      
+
       <p class="article-description">
-        Ever been in a room and felt like something was missing? Perhaps 
+  Ever been in a room and felt like something was missing? Perhaps 
         it felt slightly bare and uninviting. I've got some simple tips 
-        to help you make any room feel complete.
+  to help you make any room feel complete.
       </p>
       
       <div class="article-footer">
